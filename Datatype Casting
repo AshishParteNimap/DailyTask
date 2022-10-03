@@ -1,0 +1,38 @@
+package Test;
+
+//Datatype Casting 
+public class DataTypeCasting {
+
+	public static void main(String[] args) {
+		//Widening Datatype Casting
+		byte b=2;
+		short s=b;
+		int i=s;
+		int i2=22;
+		float f=i2;
+		double d=f;
+		
+		System.out.println(b);
+		System.out.println(s);
+		System.out.println(i);
+		System.out.println(i2);
+		System.out.println(f);
+		System.out.println(d);
+		
+		//Narrowing Datatype Casting
+		
+		double BigNumber=12.34;
+		float floatNumber=(float) BigNumber;
+		int smallNumber=(int)floatNumber;
+		short shortNumber=(short)smallNumber;
+		byte byteNumber=(byte)shortNumber;
+		
+		
+		System.out.println(BigNumber);
+		System.out.println(floatNumber);
+		System.out.println(smallNumber);
+		System.out.println(shortNumber);
+		System.out.println(byteNumber);
+	}
+
+}
