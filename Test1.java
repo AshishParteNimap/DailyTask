@@ -4,16 +4,18 @@ public class Test1 {
 
 	//primitive datatype
 			int a=1;
-			String name="Nimap";
+			long l=100;
 	public static void main(String[] args) {
 		int b=18;
+		long d=2089;
+		String name="hello";
 		String newName="nameOfInstitute";
-		System.out.println(b+" primitives "+newName);
+		System.out.println("primitive datatypes :"+b+" "+d);
 		
 		
 		Test1 primitive=new Test1();
 		System.out.println("primitive datatype :"+primitive.a);
-		System.out.println("primitive datatype :"+primitive.name);
+		System.out.println("primitive datatype :"+primitive.d);
 
 		//refrence datatype
 		Test1 obj1=new Test1();
