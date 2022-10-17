@@ -1,0 +1,196 @@
+exercise questons:
+
+select clause:
+1.SELECT * FROM employee;
+
+2.SELECT name FROM customers;
+mysql> select first_name from customers;
++------------+
+| first_name |
++------------+
+| Babara     |
+| Ines       |
+| Freddi     |
+| Ambur      |
+| Clemmie    |
+| Elka       |
+| Ilene      |
+| Thacher    |
+| Romola     |
+| Levy       |
++------------+
+10 rows in set (0.00 sec)
+3.SELECT unit price FROM customers;
+mysql> select points from customers;
++--------+
+| points |
++--------+
+|   2273 |
+|    947 |
+|   2967 |
+|    457 |
+|   3675 |
+|   3073 |
+|   1672 |
+|    205 |
+|   1486 |
+|    796 |
++--------+
+10 rows in set (0.00 sec)
+
+4.SELECT unit price*1.1 AS new_price FROM employee
+mysql> select points *1.1 AS new_points from customers;
++------------+
+| new_points |
++------------+
+|     2500.3 |
+|     1041.7 |
+|     3263.7 |
+|      502.7 |
+|     4042.5 |
+|     3380.3 |
+|     1839.2 |
+|      225.5 |
+|     1634.6 |
+|      875.6 |
++------------+
+10 rows in set (0.00 sec)
+
+
+Where clause:
+
+1.order place on spcfc year
+mysql> select order_id from orders where order_date >='2018-11-18';
++----------+
+| order_id |
++----------+
+|        1 |
+|        6 |
++----------+
+2 rows in set (0.00 sec)
+
+2.mysql> select first_name from employees where salary>=86119;
++------------+
+| first_name |
++------------+
+| Sayer      |
+| Mindy      |
+| Keriann    |
+| North      |
+| Elladine   |
+| Guthrey    |
+| Kass       |
+| Mirilla    |
+| Hazel      |
+| Cole       |
+| Ivy        |
++------------+
+11 rows in set (0.00 sec)
+
+**And ,or, not operator
+1.mysql> select * from orders where order_id>6 AND status=2 ;
++----------+-------------+------------+--------+-----------------------------------------------+--------------+------------+
+| order_id | customer_id | order_date | status | comments                                      | shipped_date | shipper_id |
++----------+-------------+------------+--------+-----------------------------------------------+--------------+------------+
+|        7 |           2 | 2018-09-22 |      2 | NULL                                          | 2018-09-23   |          4 |
+|        9 |          10 | 2017-07-05 |      2 | Nulla mollis molestie lorem. Quisque ut erat. | 2017-07-06   |          1 |
+|       10 |           6 | 2018-04-22 |      2 | NULL                                          | 2018-04-23   |          2 |
++----------+-------------+------------+--------+-----------------------------------------------+--------------+------------+
+3 rows in set (0.00 sec)
+
+2.OR
+mysql> select * from orders where order_id>6 or  status=2 ;
++----------+-------------+------------+--------+-----------------------------------------------------------------------+--------------+------------+
+| order_id | customer_id | order_date | status | comments                                                              | shipped_date | shipper_id |
++----------+-------------+------------+--------+-----------------------------------------------------------------------+--------------+------------+
+|        2 |           7 | 2018-08-02 |      2 | NULL                                                                  | 2018-08-03   |          4 |
+|        5 |           5 | 2017-08-25 |      2 |                                                                       | 2017-08-26   |          3 |
+|        7 |           2 | 2018-09-22 |      2 | NULL                                                                  | 2018-09-23   |          4 |
+|        8 |           5 | 2018-06-08 |      1 | Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. | NULL         |       NULL |
+|        9 |          10 | 2017-07-05 |      2 | Nulla mollis molestie lorem. Quisque ut erat.                         | 2017-07-06   |          1 |
+|       10 |           6 | 2018-04-22 |      2 | NULL                                                                  | 2018-04-23   |          2 |
++----------+-------------+------------+--------+-----------------------------------------------------------------------+--------------+------------+
+6 rows in set (0.00 sec)
+
+3.NOT
+mysql> select * from orders where NOT order_id>6 ;
++----------+-------------+------------+--------+-----------------------------------+--------------+------------+
+| order_id | customer_id | order_date | status | comments                          | shipped_date | shipper_id |
++----------+-------------+------------+--------+-----------------------------------+--------------+------------+
+|        1 |           6 | 2019-01-30 |      1 | NULL                              | NULL         |       NULL |
+|        2 |           7 | 2018-08-02 |      2 | NULL                              | 2018-08-03   |          4 |
+|        3 |           8 | 2017-12-01 |      1 | NULL                              | NULL         |       NULL |
+|        4 |           2 | 2017-01-22 |      1 | NULL                              | NULL         |       NULL |
+|        5 |           5 | 2017-08-25 |      2 |                                   | 2017-08-26   |          3 |
+|        6 |          10 | 2018-11-18 |      1 | Aliquam erat volutpat. In congue. | NULL         |       NULL |
++----------+-------------+------------+--------+-----------------------------------+--------------+------------+
+6 rows in set (0.00 sec)
+
+4.IN operator
+mysql> select * from offices where state in('id','mn');
++-----------+---------------------+-------------+-------+
+| office_id | address             | city        | state |
++-----------+---------------------+-------------+-------+
+|         5 | 553 Maple Drive     | Minneapolis | MN    |
+|         7 | 9658 Wayridge Court | Boise       | ID    |
++-----------+---------------------+-------------+-------+
+2 rows in set (0.00 sec)
+
+5.Between operator:
+mysql> select * from employees where salary between 60000 and 80000;
++-------------+------------+------------+---------------------+--------+------------+-----------+
+| employee_id | first_name | last_name  | job_title           | salary | reports_to | office_id |
++-------------+------------+------------+---------------------+--------+------------+-----------+
+|       33391 | D'arcy     | Nortunen   | Account Executive   |  62871 |      37270 |         1 |
+|       37270 | Yovonnda   | Magrannell | Executive Secretary |  63996 |       NULL |        10 |
+|       80529 | Lynde      | Aronson    | Junior Executive    |  77182 |      37270 |         4 |
+|       80679 | Mildrid    | Sokale     | Geologist II        |  67987 |      37270 |         4 |
+|       98374 | Estrellita | Daleman    | Staff Accountant IV |  70187 |      37270 |         5 |
++-------------+------------+------------+---------------------+--------+------------+-----------+
+5 rows in set (0.00 sec)
+
+6.Like operator:
+mysql> select * from employees where job_title like 'a%';
++-------------+------------+-----------+---------------------+--------+------------+-----------+
+| employee_id | first_name | last_name | job_title           | salary | reports_to | office_id |
++-------------+------------+-----------+---------------------+--------+------------+-----------+
+|       33391 | D'arcy     | Nortunen  | Account Executive   |  62871 |      37270 |         1 |
+|       63196 | Alaster    | Scutchin  | Assistant Professor |  32179 |      37270 |         2 |
++-------------+------------+-----------+---------------------+--------+------------+-----------+
+2 rows in set (0.00 sec)
+
+7.Null operator:
+mysql> select * from orders where comments is null;
++----------+-------------+------------+--------+----------+--------------+------------+
+| order_id | customer_id | order_date | status | comments | shipped_date | shipper_id |
++----------+-------------+------------+--------+----------+--------------+------------+
+|        1 |           6 | 2019-01-30 |      1 | NULL     | NULL         |       NULL |
+|        2 |           7 | 2018-08-02 |      2 | NULL     | 2018-08-03   |          4 |
+|        3 |           8 | 2017-12-01 |      1 | NULL     | NULL         |       NULL |
+|        4 |           2 | 2017-01-22 |      1 | NULL     | NULL         |       NULL |
+|        7 |           2 | 2018-09-22 |      2 | NULL     | 2018-09-23   |          4 |
+|       10 |           6 | 2018-04-22 |      2 | NULL     | 2018-04-23   |          2 |
++----------+-------------+------------+--------+----------+--------------+------------+
+6 rows in set (0.00 sec)
+
+8.order by:
+mysql> select * from customers where customer_id=5 order by city asc;
++-------------+------------+-----------+------------+-------+----------------+-----------+-------+--------+
+| customer_id | first_name | last_name | birth_date | phone | address        | city      | state | points |
++-------------+------------+-----------+------------+-------+----------------+-----------+-------+--------+
+|           5 | Clemmie    | Betchley  | 1973-11-07 | NULL  | 5 Spohn Circle | Arlington | TX    |   3675 |
++-------------+------------+-----------+------------+-------+----------------+-----------+-------+--------+
+1 row in set (0.00 sec)
+
+9.limit clause:
+mysql> select * from customers limit 5;
++-------------+------------+------------+------------+--------------+------------------------+------------------+-------+--------+
+| customer_id | first_name | last_name  | birth_date | phone        | address                | city             | state | points |
++-------------+------------+------------+------------+--------------+------------------------+------------------+-------+--------+
+|           1 | Babara     | MacCaffrey | 1986-03-28 | 781-932-9754 | 0 Sage Terrace         | Waltham          | MA    |   2273 |
+|           2 | Ines       | Brushfield | 1986-04-13 | 804-427-9456 | 14187 Commercial Trail | Hampton          | VA    |    947 |
+|           3 | Freddi     | Boagey     | 1985-02-07 | 719-724-7869 | 251 Springs Junction   | Colorado Springs | CO    |   2967 |
+|           4 | Ambur      | Roseburgh  | 1974-04-14 | 407-231-8017 | 30 Arapahoe Terrace    | Orlando          | FL    |    457 |
+|           5 | Clemmie    | Betchley   | 1973-11-07 | NULL         | 5 Spohn Circle         | Arlington        | TX    |   3675 |
++-------------+------------+------------+------------+--------------+------------------------+------------------+-------+--------+
+5 rows in set (0.00 sec)
