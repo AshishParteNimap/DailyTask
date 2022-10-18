@@ -1,0 +1,120 @@
+mysql task:
+
+1.regular expression:
+mysql> select * from customers
+    -> where last_name regexp 'ey$|on$';
++-------------+------------+------------+------------+--------------+----------------------+------------------+-------+--------+
+| customer_id | first_name | last_name  | birth_date | phone        | address              | city             | state | points |
++-------------+------------+------------+------------+--------------+----------------------+------------------+-------+--------+
+|           1 | Babara     | MacCaffrey | 1986-03-28 | 781-932-9754 | 0 Sage Terrace       | Waltham          | MA    |   2273 |
+|           3 | Freddi     | Boagey     | 1985-02-07 | 719-724-7869 | 251 Springs Junction | Colorado Springs | CO    |   2967 |
+|           5 | Clemmie    | Betchley   | 1973-11-07 | NULL         | 5 Spohn Circle       | Arlington        | TX    |   3675 |
+|           7 | Ilene      | Dowson     | 1964-08-30 | 615-641-4759 | 50 Lillian Crossing  | Nashville        | TN    |   1672 |
++-------------+------------+------------+------------+--------------+----------------------+------------------+-------+--------+
+4 rows in set (0.03 sec)
+
+
+
+2.inner join
+mysql> select client_id,date,amount,payment_method,name from  payments p inner join payment_methods pm on p.payment_id=pm.payment_method_id;
++-----------+------------+--------+----------------+---------------+
+| client_id | date       | amount | payment_method | name          |
++-----------+------------+--------+----------------+---------------+
+|         5 | 2019-02-12 |   8.18 |              1 | Credit Card   |
+|         1 | 2019-01-03 |  74.55 |              1 | Cash          |
+|         3 | 2019-01-11 |   0.03 |              1 | PayPal        |
+|         5 | 2019-01-26 |  87.44 |              1 | Wire Transfer |
++-----------+------------+--------+----------------+---------------+
+4 rows in set (0.00 sec)
+
+
+
+3.joining across database:
+mysql> select * from orders o
+    -> join sql_store.products p on o.order_id=p.product_id;
++----------+-------------+------------+--------+-----------------------------------------------------------------------+--------------+------------+------------+------------------------------+-------------------+------------+
+| order_id | customer_id | order_date | status | comments                                                              | shipped_date | shipper_id | product_id | name                         | quantity_in_stock | unit_price |
++----------+-------------+------------+--------+-----------------------------------------------------------------------+--------------+------------+------------+------------------------------+-------------------+------------+
+|        1 |           6 | 2019-01-30 |      1 | NULL                                                                  | NULL         |       NULL |          1 | Foam Dinner Plate            |                70 |       1.21 |
+|        2 |           7 | 2018-08-02 |      2 | NULL                                                                  | 2018-08-03   |          4 |          2 | Pork - Bacon,back Peameal    |                49 |       4.65 |
+|        3 |           8 | 2017-12-01 |      1 | NULL                                                                  | NULL         |       NULL |          3 | Lettuce - Romaine, Heart     |                38 |       3.35 |
+|        4 |           2 | 2017-01-22 |      1 | NULL                                                                  | NULL         |       NULL |          4 | Brocolinni - Gaylan, Chinese |                90 |       4.53 |
+|        5 |           5 | 2017-08-25 |      2 |                                                                       | 2017-08-26   |          3 |          5 | Sauce - Ranch Dressing       |                94 |       1.63 |
+|        6 |          10 | 2018-11-18 |      1 | Aliquam erat volutpat. In congue.                                     | NULL         |       NULL |          6 | Petit Baguette               |                14 |       2.39 |
+|        7 |           2 | 2018-09-22 |      2 | NULL                                                                  | 2018-09-23   |          4 |          7 | Sweet Pea Sprouts            |                98 |       3.29 |
+|        8 |           5 | 2018-06-08 |      1 | Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. | NULL         |       NULL |          8 | Island Oasis - Raspberry     |                26 |       0.74 |
+|        9 |          10 | 2017-07-05 |      2 | Nulla mollis molestie lorem. Quisque ut erat.                         | 2017-07-06   |          1 |          9 | Longan                       |                67 |       2.26 |
+|       10 |           6 | 2018-04-22 |      2 | NULL                                                                  | 2018-04-23   |          2 |         10 | Broom - Push                 |                 6 |       1.09 |
++----------+-------------+------------+--------+-----------------------------------------------------------------------+--------------+------------+------------+------------------------------+-------------------+------------+
+10 rows in set (0.00 sec)
+
+
+
+4.self join:
+mysql> select e.first_name,e.last_name,e.job_title,em.salary from employees e join employees em on e.employee_id=em.reports_to;
++------------+------------+---------------------+--------+
+| first_name | last_name  | job_title           | salary |
++------------+------------+---------------------+--------+
+| Yovonnda   | Magrannell | Executive Secretary |  62871 |
+| Yovonnda   | Magrannell | Executive Secretary |  98926 |
+| Yovonnda   | Magrannell | Executive Secretary |  94860 |
+| Yovonnda   | Magrannell | Executive Secretary | 110150 |
+| Yovonnda   | Magrannell | Executive Secretary |  32179 |
+| Yovonnda   | Magrannell | Executive Secretary | 114257 |
+| Yovonnda   | Magrannell | Executive Secretary |  96767 |
+| Yovonnda   | Magrannell | Executive Secretary |  52832 |
+| Yovonnda   | Magrannell | Executive Secretary | 117690 |
+| Yovonnda   | Magrannell | Executive Secretary |  96401 |
+| Yovonnda   | Magrannell | Executive Secretary |  54578 |
+| Yovonnda   | Magrannell | Executive Secretary | 119241 |
+| Yovonnda   | Magrannell | Executive Secretary |  77182 |
+| Yovonnda   | Magrannell | Executive Secretary |  67987 |
+| Yovonnda   | Magrannell | Executive Secretary |  93760 |
+| Yovonnda   | Magrannell | Executive Secretary |  86119 |
+| Yovonnda   | Magrannell | Executive Secretary |  47354 |
+| Yovonnda   | Magrannell | Executive Secretary |  70187 |
+| Yovonnda   | Magrannell | Executive Secretary |  92710 |
++------------+------------+---------------------+--------+
+19 rows in set (0.00 sec)
+
+
+
+5.joining multiple tables:
+mysql> select c.first_name,c.last_name,c.state,o.order_date,o.status,o.shipped_date,s.shipper_id,s.name from customers c
+    -> join orders o on c.customer_id=o.order_id
+    -> join shippers s
+    -> on o.status=s.shipper_id;
++------------+------------+-------+------------+--------+--------------+------------+-------------------+
+| first_name | last_name  | state | order_date | status | shipped_date | shipper_id | name              |
++------------+------------+-------+------------+--------+--------------+------------+-------------------+
+| Babara     | MacCaffrey | MA    | 2019-01-30 |      1 | NULL         |          1 | Hettinger LLC     |
+| Ines       | Brushfield | VA    | 2018-08-02 |      2 | 2018-08-03   |          2 | Schinner-Predovic |
+| Freddi     | Boagey     | CO    | 2017-12-01 |      1 | NULL         |          1 | Hettinger LLC     |
+| Ambur      | Roseburgh  | FL    | 2017-01-22 |      1 | NULL         |          1 | Hettinger LLC     |
+| Clemmie    | Betchley   | TX    | 2017-08-25 |      2 | 2017-08-26   |          2 | Schinner-Predovic |
+| Elka       | Twiddell   | IL    | 2018-11-18 |      1 | NULL         |          1 | Hettinger LLC     |
+| Ilene      | Dowson     | TN    | 2018-09-22 |      2 | 2018-09-23   |          2 | Schinner-Predovic |
+| Thacher    | Naseby     | FL    | 2018-06-08 |      1 | NULL         |          1 | Hettinger LLC     |
+| Romola     | Rumgay     | CA    | 2017-07-05 |      2 | 2017-07-06   |          2 | Schinner-Predovic |
+| Levy       | Mynett     | GA    | 2018-04-22 |      2 | 2018-04-23   |          2 | Schinner-Predovic |
++------------+------------+-------+------------+--------+--------------+------------+-------------------+
+10 rows in set (0.00 sec)
+
+6.compound join conditions:
+mysql> select * from products p join sql_store.products ps on p.product_id=ps.product_id and p.unit_price=ps.unit_price;
++------------+------------------------------+-------------------+------------+------------+------------------------------+-------------------+------------+
+| product_id | name                         | quantity_in_stock | unit_price | product_id | name                         | quantity_in_stock | unit_price |
++------------+------------------------------+-------------------+------------+------------+------------------------------+-------------------+------------+
+|          1 | Foam Dinner Plate            |                70 |       1.21 |          1 | Foam Dinner Plate            |                70 |       1.21 |
+|          2 | Pork - Bacon,back Peameal    |                49 |       4.65 |          2 | Pork - Bacon,back Peameal    |                49 |       4.65 |
+|          3 | Lettuce - Romaine, Heart     |                38 |       3.35 |          3 | Lettuce - Romaine, Heart     |                38 |       3.35 |
+|          4 | Brocolinni - Gaylan, Chinese |                90 |       4.53 |          4 | Brocolinni - Gaylan, Chinese |                90 |       4.53 |
+|          5 | Sauce - Ranch Dressing       |                94 |       1.63 |          5 | Sauce - Ranch Dressing       |                94 |       1.63 |
+|          6 | Petit Baguette               |                14 |       2.39 |          6 | Petit Baguette               |                14 |       2.39 |
+|          7 | Sweet Pea Sprouts            |                98 |       3.29 |          7 | Sweet Pea Sprouts            |                98 |       3.29 |
+|          8 | Island Oasis - Raspberry     |                26 |       0.74 |          8 | Island Oasis - Raspberry     |                26 |       0.74 |
+|          9 | Longan                       |                67 |       2.26 |          9 | Longan                       |                67 |       2.26 |
+|         10 | Broom - Push                 |                 6 |       1.09 |         10 | Broom - Push                 |                 6 |       1.09 |
++------------+------------------------------+-------------------+------------+------------+------------------------------+-------------------+------------+
+10 rows in set (0.00 sec)
+
