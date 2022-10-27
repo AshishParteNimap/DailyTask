@@ -1,0 +1,66 @@
+1.copying one table in other table:
+
+create table  studentCopy as select * from student;
+Query OK, 3 rows affected (0.04 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+2.updating single row:
+
+mysql> update student
+    -> set board='dl'
+    -> where id=2;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+3.updating multiple rows:
+
+mysql> update employees
+    -> set salary=123456
+    -> where office_id=(select office_id from offices where office_id=10);
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+4.Aggrigate function:
+mysql> select MAX(salary),
+    -> MIN(reports_to),
+    -> sum(office_id),
+    -> count(employee_id)
+    -> from employees;
++-------------+-----------------+----------------+--------------------+
+| MAX(salary) | MIN(reports_to) | sum(office_id) | count(employee_id) |
++-------------+-----------------+----------------+--------------------+
+|      123456 |           37270 |             65 |                 20 |
++-------------+-----------------+----------------+--------------------+
+1 row in set (0.00 sec)
+
+5.group by:
+mysql> select first_name,last_name,employee_id
+    -> from employees
+    -> group by salary;
++------------+------------+-------------+
+| first_name | last_name  | employee_id |
++------------+------------+-------------+
+| D'arcy     | Nortunen   |       33391 |
+| Yovonnda   | Magrannell |       37270 |
+| Sayer      | Matterson  |       37851 |
+| Mindy      | Crissil    |       40448 |
+| Keriann    | Alloisi    |       56274 |
+| Alaster    | Scutchin   |       63196 |
+| North      | de Clerc   |       67009 |
+| Elladine   | Rising     |       67370 |
+| Nisse      | Voysey     |       68249 |
+| Guthrey    | Iacopetti  |       72540 |
+| Kass       | Hefferan   |       72913 |
+| Virge      | Goodrum    |       75900 |
+| Mirilla    | Janowski   |       76196 |
+| Lynde      | Aronson    |       80529 |
+| Mildrid    | Sokale     |       80679 |
+| Hazel      | Tarbert    |       84791 |
+| Cole       | Kesterton  |       95213 |
+| Theresa    | Binney     |       96513 |
+| Estrellita | Daleman    |       98374 |
+| Ivy        | Fearey     |      115357 |
++------------+------------+-------------+
+20 rows in set (0.00 sec)
+
+mysql>
