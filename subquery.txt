@@ -1,0 +1,67 @@
+Having clause:
+mysql> select first_name,last_name,salary from employees group by employee_id having salary>80000;
++------------+------------+--------+
+| first_name | last_name  | salary |
++------------+------------+--------+
+| Yovonnda   | Magrannell | 123456 |
+| Sayer      | Matterson  |  98926 |
+| Mindy      | Crissil    |  94860 |
+| Keriann    | Alloisi    | 110150 |
+| North      | de Clerc   | 114257 |
+| Elladine   | Rising     |  96767 |
+| Guthrey    | Iacopetti  | 117690 |
+| Kass       | Hefferan   |  96401 |
+| Mirilla    | Janowski   | 119241 |
+| Hazel      | Tarbert    |  93760 |
+| Cole       | Kesterton  |  86119 |
+| Ivy        | Fearey     |  92710 |
++------------+------------+--------+
+12 rows in set (0.00 sec)
+
+2.subqueries:
+mysql> select first_name as Name,salary As moreThanAvgSalary from employees where salary>(select avg(salary) from employees);
++----------+-------------------+
+| Name     | moreThanAvgSalary |
++----------+-------------------+
+| Yovonnda |            123456 |
+| Sayer    |             98926 |
+| Mindy    |             94860 |
+| Keriann  |            110150 |
+| North    |            114257 |
+| Elladine |             96767 |
+| Guthrey  |            117690 |
+| Kass     |             96401 |
+| Mirilla  |            119241 |
+| Hazel    |             93760 |
+| Cole     |             86119 |
+| Ivy      |             92710 |
++----------+-------------------+
+12 rows in set (0.00 sec)
+
+
+3.In operator:
+mysql> select name from products where unit_price not in (select unit_price from order_items);
++------------------------------+
+| name                         |
++------------------------------+
+| Foam Dinner Plate            |
+| Pork - Bacon,back Peameal    |
+| Lettuce - Romaine, Heart     |
+| Brocolinni - Gaylan, Chinese |
+| Sauce - Ranch Dressing       |
+| Petit Baguette               |
+| Sweet Pea Sprouts            |
+| Island Oasis - Raspberry     |
+| Longan                       |
+| Broom - Push                 |
++------------------------------+
+10 rows in set (0.00 sec)
+
+4.ALL operator
+mysql> select * from products where unit_price  >ALL(select unit_price from products where product_id=4);
++------------+---------------------------+-------------------+------------+
+| product_id | name                      | quantity_in_stock | unit_price |
++------------+---------------------------+-------------------+------------+
+|          2 | Pork - Bacon,back Peameal |                49 |       4.65 |
++------------+---------------------------+-------------------+------------+
+1 row in set (0.00 sec)
