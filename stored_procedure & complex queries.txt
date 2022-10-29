@@ -1,0 +1,119 @@
+1.any keyword:
+mysql> select first_name,job_title from employees where office_id =any(select office_id from employees where office_id>=4);
++------------+---------------------+
+| first_name | job_title           |
++------------+---------------------+
+| Lynde      | Junior Executive    |
+| Mildrid    | Geologist II        |
+| Hazel      | General Manager     |
+| Cole       | Pharmacist          |
+| Theresa    | Food Chemist        |
+| Estrellita | Staff Accountant IV |
+| Ivy        | Structural Engineer |
+| Yovonnda   | Executive Secretary |
++------------+---------------------+
+8 rows in set (0.00 sec)
+
+2.correlated subqueries:
+mysql> select first_name,job_title,salary from employees e where salary >(select avg(salary) from employees where office_id=e.office_id);
++------------+-----------------------+--------+
+| first_name | job_title             | salary |
++------------+-----------------------+--------+
+| Sayer      | Statistician III      |  98926 |
+| Mindy      | Staff Scientist       |  94860 |
+| Keriann    | VP Marketing          | 110150 |
+| North      | VP Product Management | 114257 |
+| Elladine   | Social Worker         |  96767 |
+| Guthrey    | Office Assistant I    | 117690 |
+| Mirilla    | Cost Accountant       | 119241 |
+| Hazel      | General Manager       |  93760 |
+| Cole       | Pharmacist            |  86119 |
+| Estrellita | Staff Accountant IV   |  70187 |
+| Ivy        | Structural Engineer   |  92710 |
++------------+-----------------------+--------+
+11 rows in set (0.00 sec)
+
+3.Exists:
+mysql> select * from products p where  not exists(select product_id from order_items where product_id=p.product_id);
++------------+-------------------+-------------------+------------+
+| product_id | name              | quantity_in_stock | unit_price |
++------------+-------------------+-------------------+------------+
+|          7 | Sweet Pea Sprouts |                98 |       3.29 |
++------------+-------------------+-------------------+------------+
+1 row in set (0.00 sec)
+
+4.Subqueries in select clause:
+mysql> select first_name as name,job_title as profile,(select avg(salary) from employees) as avg_salary from employees;
++------------+-----------------------------+------------+
+| name       | profile                     | avg_salary |
++------------+-----------------------------+------------+
+| D'arcy     | Account Executive           | 85475.3500 |
+| Yovonnda   | Executive Secretary         | 85475.3500 |
+| Sayer      | Statistician III            | 85475.3500 |
+| Mindy      | Staff Scientist             | 85475.3500 |
+| Keriann    | VP Marketing                | 85475.3500 |
+| Alaster    | Assistant Professor         | 85475.3500 |
+| North      | VP Product Management       | 85475.3500 |
+| Elladine   | Social Worker               | 85475.3500 |
+| Nisse      | Financial Advisor           | 85475.3500 |
+| Guthrey    | Office Assistant I          | 85475.3500 |
+| Kass       | Computer Systems Analyst IV | 85475.3500 |
+| Virge      | Information Systems Manager | 85475.3500 |
+| Mirilla    | Cost Accountant             | 85475.3500 |
+| Lynde      | Junior Executive            | 85475.3500 |
+| Mildrid    | Geologist II                | 85475.3500 |
+| Hazel      | General Manager             | 85475.3500 |
+| Cole       | Pharmacist                  | 85475.3500 |
+| Theresa    | Food Chemist                | 85475.3500 |
+| Estrellita | Staff Accountant IV         | 85475.3500 |
+| Ivy        | Structural Engineer         | 85475.3500 |
++------------+-----------------------------+------------+
+20 rows in set (0.00 sec)
+
+5.subqueries in from clause:
+mysql> select * from (select first_name,job_title,salary from employees)as newEmp;
++------------+-----------------------------+--------+
+| first_name | job_title                   | salary |
++------------+-----------------------------+--------+
+| D'arcy     | Account Executive           |  62871 |
+| Yovonnda   | Executive Secretary         | 123456 |
+| Sayer      | Statistician III            |  98926 |
+| Mindy      | Staff Scientist             |  94860 |
+| Keriann    | VP Marketing                | 110150 |
+| Alaster    | Assistant Professor         |  32179 |
+| North      | VP Product Management       | 114257 |
+| Elladine   | Social Worker               |  96767 |
+| Nisse      | Financial Advisor           |  52832 |
+| Guthrey    | Office Assistant I          | 117690 |
+| Kass       | Computer Systems Analyst IV |  96401 |
+| Virge      | Information Systems Manager |  54578 |
+| Mirilla    | Cost Accountant             | 119241 |
+| Lynde      | Junior Executive            |  77182 |
+| Mildrid    | Geologist II                |  67987 |
+| Hazel      | General Manager             |  93760 |
+| Cole       | Pharmacist                  |  86119 |
+| Theresa    | Food Chemist                |  47354 |
+| Estrellita | Staff Accountant IV         |  70187 |
+| Ivy        | Structural Engineer         |  92710 |
++------------+-----------------------------+--------+
+20 rows in set (0.00 sec)
+
+6.Views:
+
+mysql> create view employee_data as select first_name,job_title,salary from employees where office_id>5;
+Query OK, 0 rows affected (0.02 s
+
+mysql> select * from employee_data;
++------------+---------------------+--------+
+| first_name | job_title           | salary |
++------------+---------------------+--------+
+| Yovonnda   | Executive Secretary | 123456 |
++------------+---------------------+--------+
+1 row in set (0.00 sec)
+
+7.Stored procedure:
+DELIMITER $$
+CREATE PROCEDURE get_data()
+BEGIN
+	select * from employees;
+END$$
