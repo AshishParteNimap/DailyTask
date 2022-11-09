@@ -10,10 +10,14 @@ import javax.persistence.Table;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
+
 @Entity
 @Table(name="Team11")
 @Where(clause = "is_active=true")
 @SQLDelete(sql = "UPDATE Team11 set is_active=false where player_id=?")
+
 public class Team {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +30,7 @@ public class Team {
 	@Column(name = "Player_role")
 	private String Role;
 	
+	@JsonIgnore
 	@Column(name="is_active")
 	public Boolean is_active=true;
 

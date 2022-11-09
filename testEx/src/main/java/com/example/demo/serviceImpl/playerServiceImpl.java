@@ -1,5 +1,6 @@
 package com.example.demo.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+
 import com.example.demo.model.Team;
+import com.example.demo.playerDto.playerDto;
 import com.example.demo.repo.PlayerRepo;
 import com.example.demo.service.PlayerService;
 
@@ -28,7 +31,7 @@ public class playerServiceImpl implements PlayerService{
 
 	@Override
 	public Team getPlayerById(Long id) throws Exception {
-		Team player=repo.findById(id).orElseThrow(()-> new Exception("not found"));
+		Team player=repo.findById(id).orElseThrow(()->new Exception());
 		return player;
 	}
 
@@ -39,9 +42,15 @@ public class playerServiceImpl implements PlayerService{
 	}
 
 	@Override
-	public void deletePlayer(Long id)  {
-		
+	public String deletePlayer(Long id) throws Exception  {
+		Team team=repo.findById(id).orElse(null);       // orElseThrow(()->new noSuchPlayer("no such player with number "+id));
+		if(team==null) {
+			throw new Exception();
+		}else {
+			
 		repo.deleteById(id);
+		return "deleted";
+		}
 	}
 
 	@Override
@@ -56,8 +65,8 @@ public class playerServiceImpl implements PlayerService{
 	}
 
 	@Override
-	public List<Team> getAllplayerByPage(int pageNo, int pageSize) {
-		Pageable pagable=PageRequest.of(pageNo, pageSize,Sort.by("id").descending());
+	public List<Team> getAllplayerByPage(String pageNo, String pageSize) {
+		Pageable pagable=PageRequest.of(Integer.parseInt(pageNo)-1  ,Integer.parseInt(pageSize) ,Sort.by("id").descending());
 		Page<Team> teamPage=repo.findAll(pagable);
 		List<Team> players=teamPage.getContent();
 		
@@ -68,6 +77,32 @@ public class playerServiceImpl implements PlayerService{
 	public List<Team> getPlayerByName(String name) {
 		List<Team> PlayerName=repo.findByName(name);
 		return PlayerName;
+	}
+
+	
+
+	@Override
+	public List<playerDto> getAllByDto() {
+		List<Team> team=this.repo.findAll();
+		List<playerDto> players=new ArrayList<>();
+		for(int i=0;i<team.size();i++) {
+			playerDto playerDto=new playerDto();
+			playerDto.setId(team.get(i).getId());
+			playerDto.setName(team.get(i).getName());
+			playerDto.setRole(team.get(i).getRole());
+			players.add(playerDto);
+		}
+		return players;
+	}
+
+	@Override
+	public playerDto getDtoById(Long id) throws Exception {
+		Team team=this.repo.findById(id).orElseThrow(()->new Exception());
+		playerDto dto=new playerDto();
+		dto.setId(team.getId());
+		dto.setName(team.getName());
+		dto.setRole(team.getRole());
+		return dto;
 	}
 
 }
